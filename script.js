@@ -19,28 +19,29 @@ buttons.addEventListener("click",(event) => {
     //check if it's an operator. If it is and the fullUserInput matches
     //regex, then evaluate. If not, don't evaluate yet
     if (numbers.includes(event.target.id)) {
-        screen.innerText += event.target.id;
-        fullUserInput += event.target.id;
+        screen.innerText += event.target.id;  
+        fullUserInput += event.target.id; 
 
     } else if (operators.includes(event.target.id)) {
         if (isFullExpression(fullUserInput)) {
             console.log("this was a full expression")
             console.log(fullUserInput);
-            firstNumber = fullUserInput.match(firstNumberRegex);
+            firstNumber = Number(fullUserInput.match(firstNumberRegex)[0]);
             console.log(`first number ${firstNumber}`)
             console.log(typeof firstNumber)
-            secondNumber = fullUserInput.match(secondNumberRegex);
+            secondNumber = Number(fullUserInput.match(secondNumberRegex)[0]);
             console.log(`second number ${secondNumber}`)
-            operator = fullUserInput.match(operatorRegex);
+            operator = fullUserInput.match(operatorRegex)[0];
             console.log(`operator ${operator}`)
-            output = operate(operator, Number(firstNumber), Number(secondNumber));
+            console.log(typeof operator)
+            output = operate(operator, Number(firstNumber), Number(secondNumber)).toString();
             console.log(`output ${output}`)
+            console.log(typeof output)
             screen.innerText = output;
             fullUserInput = output + event.target.id;
             console.log(fullUserInput);
         } else if (!isFullExpression(fullUserInput)) {
             fullUserInput += event.target.id;
-            screen.innerText += event.target.id;
         }
         
     }
