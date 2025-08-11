@@ -7,7 +7,7 @@ let output = '';
 const fullExpressionRegex = /-?[0-9]+\.?[0-9]*[+\-/*]-?[0-9]+\.?[0-9]*/
 const firstNumberRegex = /-?[0-9]+\.?[0-9]*/
 const operatorRegex = /[+\-/*]/
-const secondNumberRegex = /-?[0-9]+\.?[0-9]*$/
+const secondNumberRegex = /[+\-/*]-?[0-9]+\.?[0-9]*$/
 
 const screen = document.querySelector("#input");
 const buttons = document.querySelector("#buttons");
@@ -19,7 +19,12 @@ buttons.addEventListener("click",(event) => {
     //check if it's an operator. If it is and the fullUserInput matches
     //regex, then evaluate. If not, don't evaluate yet
     if (numbers.includes(event.target.id)) {
-        screen.innerText += event.target.id;  
+        //if the last char that the user inputted is an operator then clear out screen
+        if (operators.includes(fullUserInput[fullUserInput.length-1]) || !fullUserInput) {
+            screen.innerText = event.target.id
+        } else {
+            screen.innerText += event.target.id; 
+        }
         fullUserInput += event.target.id; 
 
     } else if (operators.includes(event.target.id)) {
@@ -29,7 +34,8 @@ buttons.addEventListener("click",(event) => {
             firstNumber = Number(fullUserInput.match(firstNumberRegex)[0]);
             console.log(`first number ${firstNumber}`)
             console.log(typeof firstNumber)
-            secondNumber = Number(fullUserInput.match(secondNumberRegex)[0]);
+            //need to be able to tell the difference between operator and negative sign
+            secondNumber = Number(fullUserInput.match(secondNumberRegex)[0].slice(1));
             console.log(`second number ${secondNumber}`)
             operator = fullUserInput.match(operatorRegex)[0];
             console.log(`operator ${operator}`)
@@ -44,11 +50,25 @@ buttons.addEventListener("click",(event) => {
             fullUserInput += event.target.id;
         }
         
+    } else if (event.target.id === "Del") {
+        fullUserInput = fullUserInput.slice(0,fullUserInput.length-1);
+        screen.innerText = fullUserInput;
+    } else if (event.target.id === "C") {
+        fullUserInput = '';
+        screen.innerText = fullUserInput;
+    } else if (event.target.id === "=") {
+        firstNumber = Number(fullUserInput.match(firstNumberRegex)[0]);
+        secondNumber = Number(fullUserInput.match(secondNumberRegex)[0].slice(1));
+        operator = fullUserInput.match(operatorRegex)[0];
+        output = operate(operator, Number(firstNumber), Number(secondNumber)).toString();
+        screen.innerText = output;
+        fullUserInput = '';
     }
 
    
 })
     
+
 function isFullExpression(expression) {
     if (expression.match(fullExpressionRegex)) {
         return true;
