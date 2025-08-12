@@ -19,13 +19,15 @@ buttons.addEventListener("click",(event) => {
     //check if it's an operator. If it is and the fullUserInput matches
     //regex, then evaluate. If not, don't evaluate yet
     if (numbers.includes(event.target.id)) {
-        //if the last char that the user inputted is an operator then clear out screen
+        //if the last char that the user inputted is an operator or fullUserInput is blank
+        // because an expression was just evaluated then clear out screen
         if (operators.includes(fullUserInput[fullUserInput.length-1]) || !fullUserInput) {
             screen.innerText = event.target.id
         } else {
             screen.innerText += event.target.id; 
         }
         fullUserInput += event.target.id; 
+        console.log(fullUserInput);
 
     } else if (operators.includes(event.target.id)) {
         if (isFullExpression(fullUserInput)) {
@@ -47,25 +49,37 @@ buttons.addEventListener("click",(event) => {
             fullUserInput = output + event.target.id;
             console.log(fullUserInput);
         } else if (!isFullExpression(fullUserInput)) {
+
+            //if the previous input was also an operator
+            if (operators.includes(fullUserInput[fullUserInput.length-1])) {
+                fullUserInput = fullUserInput.slice(0,fullUserInput.length-1);
+                console.log(fullUserInput)
+            }
+            
             fullUserInput += event.target.id;
+            console.log(fullUserInput);
         }
         
     } else if (event.target.id === "Del") {
         fullUserInput = fullUserInput.slice(0,fullUserInput.length-1);
         screen.innerText = fullUserInput;
+        console.log(fullUserInput);
     } else if (event.target.id === "C") {
         fullUserInput = '';
         screen.innerText = fullUserInput;
+        console.log(fullUserInput);
     } else if (event.target.id === "=") {
-        firstNumber = Number(fullUserInput.match(firstNumberRegex)[0]);
-        secondNumber = Number(fullUserInput.match(secondNumberRegex)[0].slice(1));
-        operator = fullUserInput.match(operatorRegex)[0];
-        output = operate(operator, Number(firstNumber), Number(secondNumber)).toString();
-        screen.innerText = output;
-        fullUserInput = '';
+        if (isFullExpression(fullUserInput)) {
+            firstNumber = Number(fullUserInput.match(firstNumberRegex)[0]);
+            secondNumber = Number(fullUserInput.match(secondNumberRegex)[0].slice(1));
+            operator = fullUserInput.match(operatorRegex)[0];
+            output = operate(operator, Number(firstNumber), Number(secondNumber)).toString();
+            screen.innerText = output;
+            fullUserInput = '';
+        }
+        console.log(fullUserInput);
     }
 
-   
 })
     
 

@@ -6,11 +6,11 @@ body {
     display: flex; 
     flex-direction: column;
     align-items: center;
+    background-color: aliceblue;
 }
 
 #buttons {
-    background-color: pink;
-    width: 80%;
+    width: 300px;
 }
 
 #calculator {
@@ -19,20 +19,23 @@ body {
     align-items: center;
     width: 500px;
     height: 800px;
-    background-color: lightseagreen;
 }
 
 #input {
     width:80%;
     height: 200px;
-    background-color: lightgrey;
     margin-bottom: 30px;
+    background-color: red;
 }
 
 .button {
     background-color: aliceblue;
     border: none;
-    width: 60px;
+    width: 72px;
     height: 60px;
-    border: lightgreen 1px solid;
+    border: 1px grey solid;
+}
+
+#C, #Del {
+    width: 148px;
 }
