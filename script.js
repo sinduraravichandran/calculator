@@ -75,7 +75,6 @@ buttons.addEventListener("click",(event) => {
             operator = fullUserInput.match(operatorRegex)[0];
             output = operate(operator, Number(firstNumber), Number(secondNumber)).toString();
             screen.innerText = output;
-            fullUserInput = '';
         }
         console.log(fullUserInput);
     }
